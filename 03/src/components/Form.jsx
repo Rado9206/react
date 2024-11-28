@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
-export function Form() {
-	const [review, setReview] = useState(null)
-	const [inputValue, setInputValue] = useState('Wpisz nazwę użytkownika')
-	const [textAreaValue, setTextAreaValue] = useState('Napisz recenzję')
+export function Form({onReviewSubmit}) {
+	const [inputValue, setInputValue] = useState('')
+	const [textAreaValue, setTextAreaValue] = useState('')
+
 
 	function handleSubmit(event) {
 		event.preventDefault()
@@ -11,17 +11,15 @@ export function Form() {
 		const author = inputValue
 		const text = textAreaValue
 
-		setReview({ author, text })
+		onReviewSubmit(author, text)
+		
+		setInputValue('')
+		setTextAreaValue('')
 	}
 
 	return (
 		<>
-			{review && (
-				<article>
-					<strong>{review.author}</strong>
-					<p>{review.text}</p>
-				</article>
-			)}
+			<hr />
 			<h2>Dodaj recenzję:</h2>
 			<form onSubmit={handleSubmit}>
 				<div>
