@@ -11,19 +11,40 @@ const initialReviews = [
 
 function App() {
 	const [reviews, setReviews] = useState(initialReviews)
+	const [counterShown, setCounterShown] = useState(true)
+	const [numberOfLikes, setNumberOfLikes] = useState(50)
+
+	function handleLikeButtonClick() {
+		setNumberOfLikes(previousNumberOfLikes => previousNumberOfLikes + 1)
+	}
+
+	function handleLoveButtonClick() {
+		setNumberOfLikes(previousNumberOfLikes => previousNumberOfLikes + 3)
+	}
 
 	return (
 		<>
 			<h1>Gwiezdne wojny V</h1>
 			<h2>Rok produkcji: 1980</h2>
-			<LikesCounter />
+			<button
+				onClick={() => {
+					setCounterShown(prevCounterShown => !prevCounterShown)
+				}}>
+				{counterShown ? 'Schowaj licznik' : 'Pokaż licznik'}
+			</button>
+			{counterShown && (
+				<LikesCounter
+					numberOfLikes={numberOfLikes}
+					onLikeButtonClick={handleLikeButtonClick}
+					onLoveButtonClick={handleLoveButtonClick}
+				/>
+			)}
 			<Plot />
 			<Reviews reviews={reviews} />
 			<Form
 				onReviewSubmit={(author, text) => {
 					setReviews(prevReviews => {
-						return [
-							{ author, text, id: prevReviews.length + 1 }, ...prevReviews]
+						return [{ author, text, id: prevReviews.length + 1 }, ...prevReviews]
 					})
 				}}
 			/>
